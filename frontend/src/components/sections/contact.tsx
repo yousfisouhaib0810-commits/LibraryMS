@@ -76,7 +76,9 @@ export function Contact() {
             <div className="absolute top-100 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-blue-500/10 rounded-full blur-[80px] md:blur-[120px] -z-10 pointer-events-none" />
 
             <div className="w-full max-w-7xl mx-auto px-4 md:px-6">
-                <div className="text-center mb-16 px-4">
+                <div className="text-center mb-16 px-4 relative">
+                    {/* The invisible landing point for perfect scrolling */}
+                    <div id="scroll-target-point" className="absolute -top-20 md:-top-24 outline-none" />
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -158,9 +160,6 @@ export function Contact() {
                         viewport={{ once: true }}
                         className="lg:col-span-3 relative"
                     >
-                        {/* The invisible landing point for perfect scrolling */}
-                        <div id="scroll-target-point" className="absolute -top-20 md:-top-[50px] outline-none" />
-
                         <div id="contact-form-container" className="p-6 md:p-8 glass-morphism overflow-hidden">
                             {/* Toggle Buttons */}
                             <div id="contact-form-anchor" className="flex p-1 bg-white/5 rounded-2xl mb-8 border border-white/10 w-full sm:w-fit">
