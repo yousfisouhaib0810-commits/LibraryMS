@@ -71,7 +71,7 @@ export function Contact() {
     };
 
     return (
-        <section id="contact" className="py-24 pb-32 md:pb-24 relative overflow-x-clip scroll-mt-24">
+        <section className="py-24 pb-32 md:pb-24 relative overflow-x-clip scroll-mt-24">
             {/* Subtle Glow Background - Responsive Size */}
             <div className="absolute top-100 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-blue-500/10 rounded-full blur-[80px] md:blur-[120px] -z-10 pointer-events-none" />
 
