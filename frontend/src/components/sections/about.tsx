@@ -48,8 +48,10 @@ export function About() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Bio Card */}
                     <motion.div
-                        whileHover={{ y: -5 }}
-                        className="md:col-span-2 p-8 glass-morphism flex flex-col justify-between"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        className="md:col-span-2 p-8 glass-morphism flex flex-col justify-between hover:border-primary/30 transition-all"
                     >
                         <div>
                             <div className="p-3 w-fit rounded-xl bg-primary/10 text-primary mb-6">
@@ -71,8 +73,11 @@ export function About() {
 
                     {/* Technical Skills Bento */}
                     <motion.div
-                        whileHover={{ y: -5 }}
-                        className="p-8 glass-morphism border-primary/20"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ delay: 0.1 }}
+                        className="p-8 glass-morphism border-primary/20 hover:border-primary/40 transition-all"
                     >
                         <div className="mb-8">
                             <h3 className="text-2xl font-bold text-foreground">Technical <span className="text-gradient">Arsenal</span></h3>
@@ -90,13 +95,12 @@ export function About() {
                                     </div>
                                     <div className="flex flex-wrap gap-1.5">
                                         {category.items.map((skill) => (
-                                            <motion.span
+                                            <span
                                                 key={skill}
-                                                whileHover={{ scale: 1.05 }}
                                                 className="px-2.5 py-1 rounded-md bg-accent/50 border border-border text-[10px] font-bold text-muted-foreground hover:text-primary hover:border-primary/40 transition-all cursor-default"
                                             >
                                                 {skill}
-                                            </motion.span>
+                                            </span>
                                         ))}
                                     </div>
                                 </div>

@@ -49,31 +49,65 @@ export function Header() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 className={cn(
-                    'pointer-events-auto flex items-center gap-2 md:gap-8 px-3 md:px-6 py-2 md:py-3 transition-all duration-500 rounded-full border mt-4 md:mt-6 max-w-[98vw] sm:max-w-fit',
+                    'pointer-events-auto flex items-center gap-2 md:gap-8 px-4 md:px-6 py-1.5 md:py-3 transition-all duration-500 rounded-full border border-border/40 mt-2 md:mt-6 max-w-[98vw] sm:max-w-fit',
                     scrolled
-                        ? 'glass shadow-2xl border-border'
-                        : 'bg-transparent border-transparent'
+                        ? 'glass shadow-xl'
+                        : 'bg-background/20 backdrop-blur-md border-border/20'
                 )}
             >
-                <Link href="#" className="flex items-center gap-2 group">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.4)] group-hover:scale-110 transition-transform">
-                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <Link href="#" className="flex items-center gap-2 group flex-shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.4)] group-hover:scale-110 transition-transform">
+                        <Sparkles className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-base sm:text-lg font-bold tracking-tight text-foreground italic">{"<Yousfi/>"}</span>
+                    <span className="text-sm sm:text-lg font-bold tracking-tight text-foreground italic hidden xs:block">{"<Yousfi/>"}</span>
                 </Link>
 
-                {/* Theme Toggle Button */}
-                <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={toggleTheme}
-                    className="p-2 rounded-full glass-morphism border border-white/10 text-foreground hover:text-primary transition-colors ml-2"
-                >
-                    {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4 text-primary" />}
-                </motion.button>
+                {/* Mobile Header Buttons - Kept large for accessibility */}
+                <div className="flex md:hidden flex-col gap-1 ml-1 sm:ml-2">
+                    <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
+                            window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'contact' }));
+                        }}
+                        className="bg-accent/80 border border-border/40 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-wider text-foreground whitespace-nowrap shadow-lg shadow-black/10"
+                    >
+                        Message
+                    </motion.button>
+                    <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
+                            window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'service' }));
+                        }}
+                        className="bg-purple-600/90 border border-purple-400/40 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-wider text-white whitespace-nowrap shadow-lg shadow-purple-500/10"
+                    >
+                        Service
+                    </motion.button>
+                </div>
+
+                {/* Theme & Menu Group - Pins to the right */}
+                <div className="flex items-center gap-1 ml-auto">
+                    {/* Theme Toggle Button */}
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={toggleTheme}
+                        className="p-3 rounded-full hover:bg-accent/50 text-foreground hover:text-primary transition-colors"
+                    >
+                        {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4 text-primary" />}
+                    </motion.button>
+
+                    {/* Mobile Menu Button - Enlarged */}
+                    <button
+                        className="md:hidden p-3 text-foreground/70 hover:text-foreground transition-colors flex-shrink-0"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
+                </div>
 
                 {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-6">
+                <div className="hidden md:flex items-center gap-6 px-4">
                     {navItems.map((item) => (
                         <a
                             key={item.name}
@@ -86,7 +120,7 @@ export function Header() {
                     ))}
                 </div>
 
-                <div className="h-4 w-px bg-white/10 hidden md:block" />
+                <div className="h-4 w-px bg-border hidden md:block" />
 
                 <div className="hidden md:flex items-center gap-3">
                     <motion.button
@@ -110,37 +144,6 @@ export function Header() {
                         Get Service
                     </motion.button>
                 </div>
-
-                {/* Mobile Header Buttons */}
-                <div className="flex md:hidden flex-col gap-1 ml-auto mr-2">
-                    <motion.button
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => {
-                            window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'contact' }));
-                        }}
-                        className="bg-accent/50 border border-border/50 px-3 py-1 rounded-full text-[7px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap"
-                    >
-                        Message Me
-                    </motion.button>
-                    <motion.button
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => {
-                            window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'service' }));
-                        }}
-                        className="bg-purple-600/20 border border-purple-500/20 px-3 py-1 rounded-full text-[7px] font-bold uppercase tracking-wider text-purple-400 whitespace-nowrap"
-                    >
-                        Get Service
-                    </motion.button>
-                </div>
-
-                {/* Mobile Menu Button */}
-                <button
-                    className="md:hidden p-2 text-foreground/70 hover:text-foreground transition-colors"
-                    onClick={() => setIsOpen(!isOpen)}
-                    aria-label="Toggle menu"
-                >
-                    {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                </button>
             </motion.nav>
 
             {/* Mobile Navigation Overlay */}
@@ -189,7 +192,7 @@ export function Header() {
 
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="absolute top-8 right-8 p-4 text-white/50 hover:text-white transition-colors"
+                            className="absolute top-8 right-8 p-4 text-foreground/50 hover:text-foreground transition-colors"
                         >
                             <X className="w-8 h-8" />
                         </button>

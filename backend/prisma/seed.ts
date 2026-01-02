@@ -1,4 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const prisma = new PrismaClient();
 
@@ -33,7 +36,7 @@ async function main() {
   console.log('Start seeding...');
 
   // Clear existing projects to avoid duplicates during testing if needed
-  // await prisma.project.deleteMany();
+  await prisma.project.deleteMany();
 
   for (const p of projects) {
     const project = await prisma.project.create({

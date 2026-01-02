@@ -3,32 +3,27 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Download, Github, Sparkles } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Hero() {
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 pb-16 overflow-hidden scroll-mt-24">
-            {/* Mesh Gradient Background */}
+            {/* Mesh Gradient Background - Ultra Simplified for Mobile */}
             <div className="absolute inset-0 -z-10 bg-background">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,var(--accent),var(--background))]" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,var(--card),var(--background))]" />
                 <motion.div
                     animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.1, 0.3, 0.1],
-                        x: [0, 50, 0],
-                        y: [0, -50, 0]
+                        opacity: [0.05, 0.1, 0.05],
                     }}
                     transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[120px]"
+                    className="absolute -top-[5%] -left-[5%] w-[40%] h-[40%] bg-blue-600/5 rounded-full blur-[60px] md:blur-[120px]"
                 />
                 <motion.div
                     animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.1, 0.4, 0.1],
-                        x: [0, -30, 0],
-                        y: [0, 60, 0]
+                        opacity: [0.05, 0.15, 0.05],
                     }}
                     transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                    className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-purple-600/10 rounded-full blur-[120px]"
+                    className="absolute -bottom-[5%] -right-[5%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[60px] md:blur-[120px]"
                 />
             </div>
 
@@ -36,13 +31,13 @@ export function Hero() {
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     {/* Text Content */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.6 }}
                         className="max-w-2xl"
                     >
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2 }}
                             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-8"
@@ -61,46 +56,25 @@ export function Hero() {
                             Specializing in web and mobile applications, building scalable and user-friendly solutions.
                         </p>
 
-                        <div className="flex flex-wrap gap-5">
-                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <Link
-                                    href="#projects"
-                                    className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:shadow-[0_0_30px_rgba(56,189,248,0.6)] transition-all"
-                                >
-                                    View Projects
-                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </Link>
-                            </motion.div>
 
-                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <Link
-                                    href="https://github.com/yousfisouhaib0810-commits"
-                                    target="_blank"
-                                    className="px-8 py-4 rounded-full border border-border glass-morphism hover:bg-accent transition-all text-foreground font-semibold flex items-center gap-2"
-                                >
-                                    GitHub Profile
-                                    <Github className="w-4 h-4" />
-                                </Link>
-                            </motion.div>
-                        </div>
                     </motion.div>
 
                     {/* Visual Element with Premium Continuous Animation */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1, delay: 0.3 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
                         className="relative block mt-12 lg:mt-0"
                     >
                         <div className="relative aspect-square max-w-md mx-auto">
                             {/* Animated Background Glow */}
                             <motion.div
                                 animate={{
-                                    scale: [1, 1.2, 1],
-                                    opacity: [0.1, 0.2, 0.1],
+                                    scale: [1, 1.1, 1],
+                                    opacity: [0.1, 0.15, 0.1],
                                 }}
                                 transition={{
-                                    duration: 4,
+                                    duration: 6,
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
@@ -109,41 +83,36 @@ export function Hero() {
 
                             <motion.div
                                 animate={{
-                                    y: [0, -20, 0],
-                                    rotate: [0, 1, 0, -1, 0]
+                                    y: [0, -10, 0],
                                 }}
                                 transition={{
-                                    duration: 6,
+                                    duration: 3,
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
                                 className="relative z-10 w-full h-full glass rounded-[2.5rem] overflow-hidden border border-border/40 p-3 shadow-2xl"
                             >
                                 <div className="w-full h-full bg-card rounded-[2rem] flex items-center justify-center border border-border/10 relative group overflow-hidden">
-                                    {/* No background patterns for image clarity */}
-
                                     <motion.div
                                         animate={{
-                                            borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "60% 40% 30% 70% / 60% 30% 70% 40%", "30% 70% 70% 30% / 30% 30% 70% 70%"],
+                                            borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "50% 50% 30% 70% / 50% 30% 70% 50%", "30% 70% 70% 30% / 30% 30% 70% 70%"],
                                         }}
                                         transition={{
-                                            duration: 10,
+                                            duration: 4,
                                             repeat: Infinity,
                                             ease: "easeInOut"
                                         }}
                                         className="w-full h-full relative z-10 overflow-hidden scale-95 origin-center"
                                     >
-                                        <motion.img
+                                        <Image
                                             src="/souhaib.jpg"
                                             alt="Yousfi Souhaib"
-                                            className="w-full h-full object-cover transition-all duration-700 ease-in-out"
-                                            initial={{ opacity: 0, scale: 1.1 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ duration: 1.2 }}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 400px"
+                                            className="object-cover transition-all duration-700 ease-in-out"
+                                            priority
                                         />
                                     </motion.div>
-
-                                    {/* Removed hover overlay for clarity */}
                                 </div>
                             </motion.div>
 

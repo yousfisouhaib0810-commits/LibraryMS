@@ -41,7 +41,13 @@ export class ContactService {
       });
     }
 
-    // 2. Send email for both types
+    // 2. Send emails in background (Fire-and-forget) to ensure instant UI response
+    this.sendEmailsInBackground(createContactDto);
+
+    return savedRequest || { status: 'Success', message: 'Message received successfully' };
+  }
+
+  private async sendEmailsInBackground(createContactDto: CreateContactDto) {
     try {
       const adminEmail = this.configService.get<string>('SMTP_USER');
       if (adminEmail) {
@@ -85,14 +91,55 @@ export class ContactService {
           html: emailHtml,
         });
         console.log('Email sent successfully to:', adminEmail);
+
+        // 3. Send automated response to the sender
+        const userSubject = isService ? 'Project Request Received - Souhaib Yousfi' : 'Message Received - Souhaib Yousfi';
+        const userHtml = `
+          <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px; color: #1f2937; line-height: 1.6;">
+            <div style="text-align: center; margin-bottom: 30px;">
+              <h1 style="color: #3b82f6; margin: 0; font-size: 24px;">Thank You for Reaching Out!</h1>
+            </div>
+            
+            <p>Hello <strong>${createContactDto.name}</strong>,</p>
+            
+            <p>I hope this email finds you well.</p>
+            
+            <p>I have received your ${isService ? 'project request for <strong>' + (createContactDto.appName || 'your project') + '</strong>' : 'message'} and I'm excited to learn more about it.</p>
+            
+            <p>I wanted to let you know that I am personally reviewing your details and I will get back to you with a response as soon as possible, usually within 24-48 hours.</p>
+            
+            <div style="background-color: #f3f4f6; border-left: 4px solid #3b82f6; padding: 20px; margin: 30px 0;">
+              <p style="margin: 0; font-size: 14px; color: #4b5563;">
+                <strong>What happens next?</strong><br>
+                I'll review your requirements and follow up via this email address to discuss potential next steps or clarify any details.
+              </p>
+            </div>
+            
+            <p>If you have any urgent updates in the meantime, feel free to reply directly to this email or reach out to me on WhatsApp.</p>
+            
+            <p style="margin-top: 40px;">Best regards,<br>
+            <strong>Souhaib Yousfi</strong><br>
+            Full Stack Developer</p>
+            
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #9ca3af;">
+              <p>© ${new Date().getFullYear()} Souhaib Yousfi. All rights reserved.</p>
+            </div>
+          </div>
+        `;
+
+        await this.transporter.sendMail({
+          from: `"Souhaib Yousfi" <${adminEmail}>`,
+          to: createContactDto.email,
+          subject: userSubject,
+          html: userHtml,
+        });
+        console.log('Auto-response sent successfully to:', createContactDto.email);
       } else {
         console.warn('SMTP_USER not configured, skipping email send.');
       }
     } catch (error) {
       console.error('Failed to send email:', error);
     }
-
-    return savedRequest || { status: 'Success', message: 'Email sent successfully' };
   }
 
   findAll() {

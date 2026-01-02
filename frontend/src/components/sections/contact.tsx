@@ -24,7 +24,7 @@ export function Contact() {
         const handleFormTypeChange = (e: any) => {
             if (e.detail) {
                 setFormType(e.detail);
-                const targetId = 'scroll-target-point';
+                const targetId = 'contact-form-section-anchor';
                 setTimeout(() => {
                     const element = document.getElementById(targetId);
                     if (element) {
@@ -38,17 +38,21 @@ export function Contact() {
         return () => window.removeEventListener('set-contact-form-type', handleFormTypeChange);
     }, []);
 
+    const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+        if (status !== 'idle') setStatus('idle');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setStatus('idle');
 
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://library-ms-backend-zkic.onrender.com';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
             const response = await fetch(`${API_URL}/contact`, {
                 method: 'POST',
                 headers: {
@@ -57,17 +61,21 @@ export function Contact() {
                 body: JSON.stringify({ ...formData, type: formType }),
             });
 
+            // Add artificial delay for better UX (so it doesn't feel "too fast")
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
             if (response.ok) {
                 setFormData({ name: "", email: "", subject: "", message: "", appName: "", duration: "", budget: "" });
-                alert("Message sent successfully!");
+                setStatus('success');
             } else {
-                alert("Failed to send message. Please ensure the backend server is running.");
+                setStatus('error');
             }
         } catch (error) {
             console.error("Error submitting form:", error);
-            alert("An error occurred. Please try again later.");
+            setStatus('error');
         } finally {
             setIsSubmitting(false);
+            setTimeout(() => setStatus('idle'), 5000);
         }
     };
 
@@ -78,8 +86,6 @@ export function Contact() {
 
             <div className="w-full max-w-7xl mx-auto px-4 md:px-6">
                 <div className="text-center mb-16 px-4 relative">
-                    {/* The invisible landing point for perfect scrolling */}
-                    <div id="scroll-target-point" className="absolute -top-20 md:-top-24 outline-none" />
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -102,7 +108,9 @@ export function Contact() {
                         viewport={{ once: true }}
                         className="lg:col-span-2 space-y-6 w-full min-w-0"
                     >
-                        <div className="p-6 md:p-8 glass-morphism flex flex-col justify-between">
+                        <div className="p-6 md:p-8 glass-morphism flex flex-col justify-between h-full relative">
+                            {/* Precise scroll target for Contact Info */}
+                            <div id="scroll-target-point" className="absolute -top-[-400px] md:-top-12 outline-none" />
                             <div>
                                 <h3 className="text-2xl font-bold text-foreground mb-2">Contact Info</h3>
                                 <p className="text-muted-foreground text-sm mb-8 italic">Available for remote work worldwide.</p>
@@ -144,7 +152,7 @@ export function Contact() {
                                 </div>
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-white/5">
+                            <div className="mt-12 pt-8 border-t border-border">
                                 <div className="text-foreground font-bold mb-2 italic">Current Location</div>
                                 <div className="text-muted-foreground text-sm flex items-center gap-2">
                                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -161,18 +169,20 @@ export function Contact() {
                         viewport={{ once: true }}
                         className="lg:col-span-3 relative"
                     >
-                        <div id="contact-form-container" className="p-6 md:p-8 glass-morphism overflow-hidden">
-                            {/* Toggle Buttons */}
-                            <div id="contact-form-anchor" className="flex p-1 bg-white/5 rounded-2xl mb-8 border border-white/10 w-full sm:w-fit">
+                        <div id="contact-form-container" className="contact-form-container p-4 md:p-8 glass-morphism overflow-hidden relative">
+                            {/* Precise scroll target for the Form itself */}
+                            <div id="contact-form-section-anchor" className="absolute -top-24 md:-top-32 outline-none" />
+                            {/* Toggle Buttons - Optimized for mobile width */}
+                            <div id="contact-form-anchor" className="flex p-1 bg-accent/20 rounded-2xl mb-8 border border-border w-full sm:w-fit">
                                 <button
                                     onClick={() => setFormType('contact')}
-                                    className={`px-6 py-2 rounded-xl text-sm font-bold transition-all ${formType === 'contact' ? 'bg-primary text-white shadow-lg shadow-blue-500/20' : 'text-white/60 hover:text-white'}`}
+                                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${formType === 'contact' ? 'bg-primary text-primary-foreground shadow-lg shadow-blue-500/20' : 'text-muted-foreground hover:text-foreground'}`}
                                 >
                                     Quick Message
                                 </button>
                                 <button
                                     onClick={() => setFormType('service')}
-                                    className={`px-6 py-2 rounded-xl text-sm font-bold transition-all ${formType === 'service' ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20' : 'text-white/60 hover:text-white'}`}
+                                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${formType === 'service' ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20' : 'text-muted-foreground hover:text-foreground'}`}
                                 >
                                     Order a Service
                                 </button>
@@ -183,42 +193,43 @@ export function Contact() {
                                     {formType === 'contact' ? (
                                         <motion.div
                                             key="contact-form"
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            exit={{ opacity: 0, x: 20 }}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
                                             className="space-y-6"
                                         >
                                             <div className="grid md:grid-cols-2 gap-6">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Full Name</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Full Name</label>
                                                     <Input
                                                         name="name"
-                                                        placeholder="Yousfi Souhaib"
+                                                        placeholder="name"
                                                         value={formData.name}
                                                         onChange={handleChange}
                                                         required
-                                                        className="bg-white/5 border-white/10 h-12 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-xl"
+                                                        className="bg-accent/5 border-border h-14 md:h-12 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-xl"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Email Address</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Email Address</label>
                                                     <Input
                                                         name="email"
                                                         type="email"
-                                                        placeholder="yousfi@example.com"
+                                                        placeholder="email@example.com"
                                                         value={formData.email}
                                                         onChange={handleChange}
                                                         required
-                                                        className="bg-white/5 border-white/10 h-12 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-xl"
+                                                        className="bg-accent/5 border-border h-14 md:h-12 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-xl"
                                                     />
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Your Message</label>
+                                                <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Your Message</label>
                                                 <Textarea
                                                     name="message"
                                                     placeholder="Tell me about your project..."
-                                                    className="min-h-[150px] bg-white/5 border-white/10 focus:border-blue-500/50 focus:ring-blue-500/20 rounded-xl resize-none"
+                                                    className="min-h-[150px] bg-accent/5 border-border focus:border-blue-500/50 focus:ring-blue-500/20 rounded-xl resize-none"
                                                     value={formData.message}
                                                     onChange={handleChange}
                                                     required
@@ -228,87 +239,88 @@ export function Contact() {
                                     ) : (
                                         <motion.div
                                             key="service-form"
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            exit={{ opacity: 0, x: -20 }}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
                                             className="space-y-6"
                                         >
                                             <div className="grid md:grid-cols-2 gap-6">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Full Name</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Full Name</label>
                                                     <Input
                                                         name="name"
-                                                        placeholder="Yousfi Souhaib"
+                                                        placeholder="name"
                                                         value={formData.name}
                                                         onChange={handleChange}
                                                         required
-                                                        className="bg-white/5 border-white/10 h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl"
+                                                        className="bg-accent/5 border-border h-14 md:h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Email Address</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Email Address</label>
                                                     <Input
                                                         name="email"
                                                         type="email"
-                                                        placeholder="yousfi@example.com"
+                                                        placeholder="email@example.com"
                                                         value={formData.email}
                                                         onChange={handleChange}
                                                         required
-                                                        className="bg-white/5 border-white/10 h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl"
+                                                        className="bg-accent/5 border-border h-14 md:h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">App / Company Name</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">App / Company Name</label>
                                                     <Input
                                                         name="appName"
                                                         placeholder="e.g. My Awesome App"
                                                         value={formData.appName}
                                                         onChange={handleChange}
                                                         required
-                                                        className="bg-white/5 border-white/10 h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl"
+                                                        className="bg-accent/5 border-border h-14 md:h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Expected Duration</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Expected Duration</label>
                                                     <select
                                                         name="duration"
                                                         value={formData.duration}
                                                         onChange={handleChange}
                                                         required
-                                                        className="w-full bg-white/5 border border-white/10 h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl px-4 text-white appearance-none cursor-pointer"
+                                                        className="w-full bg-accent/5 border border-border h-14 md:h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl px-4 text-foreground appearance-none cursor-pointer"
                                                     >
-                                                        <option value="" disabled className="bg-[#0f172a]">Select Duration</option>
-                                                        <option value="less-than-1-week" className="bg-[#0f172a]">Less than 1 week</option>
-                                                        <option value="1-2-weeks" className="bg-[#0f172a]">1 - 2 weeks</option>
-                                                        <option value="2-4-weeks" className="bg-[#0f172a]">2 - 4 weeks</option>
-                                                        <option value="1-2-months" className="bg-[#0f172a]">1 - 2 months</option>
-                                                        <option value="more-than-2-months" className="bg-[#0f172a]">More than 2 months</option>
+                                                        <option value="" disabled className="bg-card">Select Duration</option>
+                                                        <option value="less-than-1-week" className="bg-card">Less than 1 week</option>
+                                                        <option value="1-2-weeks" className="bg-card">1 - 2 weeks</option>
+                                                        <option value="2-4-weeks" className="bg-card">2 - 4 weeks</option>
+                                                        <option value="1-2-months" className="bg-card">1 - 2 months</option>
+                                                        <option value="more-than-2-months" className="bg-card">More than 2 months</option>
                                                     </select>
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Budget Range ($)</label>
+                                                    <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Budget Range ($)</label>
                                                     <select
                                                         name="budget"
                                                         value={formData.budget}
                                                         onChange={handleChange}
                                                         required
-                                                        className="w-full bg-white/5 border border-white/10 h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl px-4 text-white appearance-none cursor-pointer"
+                                                        className="w-full bg-accent/5 border border-border h-14 md:h-12 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl px-4 text-foreground appearance-none cursor-pointer"
                                                     >
-                                                        <option value="" disabled className="bg-[#0f172a]">Select Budget</option>
-                                                        <option value="below-500" className="bg-[#0f172a]">Below $500</option>
-                                                        <option value="500-1000" className="bg-[#0f172a]">$500 - $1000</option>
-                                                        <option value="1000-3000" className="bg-[#0f172a]">$1000 - $3000</option>
-                                                        <option value="3000-5000" className="bg-[#0f172a]">$3000 - $5000</option>
-                                                        <option value="above-5000" className="bg-[#0f172a]">Above $5000</option>
+                                                        <option value="" disabled className="bg-card">Select Budget</option>
+                                                        <option value="below-500" className="bg-card">Below $500</option>
+                                                        <option value="500-1000" className="bg-card">$500 - $1000</option>
+                                                        <option value="1000-3000" className="bg-card">$1000 - $3000</option>
+                                                        <option value="3000-5000" className="bg-card">$3000 - $5000</option>
+                                                        <option value="above-5000" className="bg-card">Above $5000</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">Project Description / Requirements</label>
+                                                <label className="text-xs font-bold uppercase tracking-widest text-foreground/70 ml-1">Project Description / Requirements</label>
                                                 <Textarea
                                                     name="message"
                                                     placeholder="Describe your project, features you need, or any specific requirements..."
-                                                    className="min-h-[120px] bg-white/5 border-white/10 focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl resize-none"
+                                                    className="min-h-[120px] bg-accent/5 border-border focus:border-purple-500/50 focus:ring-purple-500/20 rounded-xl resize-none"
                                                     value={formData.message}
                                                     onChange={handleChange}
                                                     required
@@ -319,25 +331,53 @@ export function Contact() {
                                 </AnimatePresence>
 
                                 <motion.div
-                                    whileHover={{ scale: 1.02 }}
+                                    whileHover={{ scale: 1.01 }}
                                     whileTap={{ scale: 0.98 }}
                                 >
                                     <Button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className={`w-full h-14 font-bold rounded-xl transition-all shadow-lg text-white ${formType === 'contact' ? 'bg-primary hover:bg-primary/90 shadow-blue-500/20' : 'bg-purple-600 hover:bg-purple-700 shadow-purple-500/20'}`}
+                                        className={`w-full h-14 md:h-16 text-lg font-black rounded-2xl transition-all shadow-xl text-white ${formType === 'contact' ? 'bg-primary hover:bg-primary/90 shadow-blue-500/30' : 'bg-purple-600 hover:bg-purple-700 shadow-purple-500/30'}`}
                                     >
                                         {isSubmitting ? (
-                                            "Transmitting..."
+                                            <span className="flex items-center gap-3">
+                                                <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                                                Transmitting...
+                                            </span>
                                         ) : (
-                                            <span className="flex items-center justify-center gap-2 w-full uppercase tracking-widest text-sm">
-                                                {formType === 'contact' ? 'Send Message' : 'Request Service'}
-                                                <Send className="w-4 h-4" />
+                                            <span className="flex items-center justify-center gap-3 w-full uppercase tracking-[0.2em]">
+                                                {formType === 'contact' ? 'Send Message' : 'Order a Service'}
+                                                <Send className="w-5 h-5 text-current" />
                                             </span>
                                         )}
                                     </Button>
                                 </motion.div>
                             </form>
+
+                            <AnimatePresence>
+                                {status !== 'idle' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className={`mt-4 p-4 rounded-xl flex items-center gap-3 text-sm font-medium border ${status === 'success'
+                                            ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                            : 'bg-red-500/10 border-red-500/20 text-red-400'
+                                            }`}
+                                    >
+                                        <div className={`p-1.5 rounded-full ${status === 'success' ? 'bg-emerald-500/20' : 'bg-red-500/20'}`}>
+                                            {status === 'success' ? (
+                                                <Sparkles className="w-4 h-4" />
+                                            ) : (
+                                                <div className="w-4 h-4 flex items-center justify-center font-bold">!</div>
+                                            )}
+                                        </div>
+                                        {status === 'success'
+                                            ? "Message transmitted successfully. I'll get back to you shortly."
+                                            : "Transmission failed. Is the local backend server running?"}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     </motion.div>
                 </div>
