@@ -24,7 +24,7 @@ export function Projects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch('http://localhost:3001/projects');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects` || 'https://library-ms-backend-zkic.onrender.com/projects');
                 if (response.ok) {
                     const data = await response.json();
                     setProjects(data);
