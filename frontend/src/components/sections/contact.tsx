@@ -48,7 +48,8 @@ export function Contact() {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact` || 'https://library-ms-backend-zkic.onrender.com/contact', {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://library-ms-backend-zkic.onrender.com';
+            const response = await fetch(`${API_URL}/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ export function Contact() {
                 setFormData({ name: "", email: "", subject: "", message: "", appName: "", duration: "", budget: "" });
                 alert("Message sent successfully!");
             } else {
-                alert("Failed to send message. Please try again later.");
+                alert("Failed to send message. Please ensure the backend server is running.");
             }
         } catch (error) {
             console.error("Error submitting form:", error);

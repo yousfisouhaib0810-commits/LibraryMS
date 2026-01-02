@@ -24,7 +24,8 @@ export function Projects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects` || 'https://library-ms-backend-zkic.onrender.com/projects');
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://library-ms-backend-zkic.onrender.com';
+                const response = await fetch(`${API_URL}/projects`);
                 if (response.ok) {
                     const data = await response.json();
                     setProjects(data);
@@ -202,3 +203,5 @@ export function Projects() {
         </>
     );
 }
+
+
