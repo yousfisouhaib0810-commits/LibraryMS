@@ -179,24 +179,28 @@ export function Projects() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setSelectedProject(null)}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4 bg-black/80 backdrop-blur-sm"
                     >
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
+                            initial={{ y: "100%", opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: "100%", opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-card border border-border rounded-2xl shadow-2xl"
+                            className="relative w-full md:max-w-4xl max-h-[90vh] md:max-h-[85vh] flex flex-col bg-card border-t md:border border-border rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden"
                         >
-                            <button
-                                onClick={() => setSelectedProject(null)}
-                                className="absolute top-4 right-4 p-2 rounded-full bg-background/50 text-foreground/70 hover:text-foreground hover:bg-accent transition-colors z-10"
-                            >
-                                <X className="w-6 h-6" />
-                            </button>
+                            {/* Sticky Header for Mobile */}
+                            <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-20 pointer-events-none">
+                                <button
+                                    onClick={() => setSelectedProject(null)}
+                                    className="pointer-events-auto p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-md"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                            </div>
 
-                            <div className="grid md:grid-cols-2 gap-0">
-                                <div className="relative h-64 md:h-auto min-h-[300px] bg-accent/20">
+                            <div className="flex flex-col md:grid md:grid-cols-2 h-full overflow-y-auto md:overflow-hidden">
+                                <div className="relative h-64 md:h-full bg-accent/20 flex-shrink-0">
                                     {selectedProject.imageUrl ? (
                                         <img
                                             src={selectedProject.imageUrl}
@@ -210,18 +214,18 @@ export function Projects() {
                                     )}
                                 </div>
 
-                                <div className="p-8 flex flex-col">
-                                    <h3 className="text-3xl font-bold text-foreground mb-4">{selectedProject.title}</h3>
-                                    <p className="text-muted-foreground leading-relaxed mb-6">
+                                <div className="p-6 md:p-8 flex flex-col overflow-y-auto">
+                                    <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 mt-2 md:mt-0">{selectedProject.title}</h3>
+                                    <p className="text-muted-foreground leading-relaxed mb-8 text-sm md:text-base">
                                         {selectedProject.description}
                                     </p>
 
-                                    <div className="space-y-6 mt-auto">
+                                    <div className="space-y-6 mt-auto pb-8 md:pb-0">
                                         <div>
-                                            <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-3">Technologies</h4>
+                                            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">Technologies</h4>
                                             <div className="flex flex-wrap gap-2">
                                                 {selectedProject.tags.map(tag => (
-                                                    <span key={tag} className="px-3 py-1 rounded bg-accent text-foreground text-sm border border-border">
+                                                    <span key={tag} className="px-3 py-1.5 rounded-lg bg-accent/50 text-foreground text-xs md:text-sm font-medium border border-border">
                                                         {tag}
                                                     </span>
                                                 ))}
