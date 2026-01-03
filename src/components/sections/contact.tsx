@@ -52,8 +52,8 @@ export function Contact() {
         setStatus('idle');
 
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://library-backend-vtqw.onrender.com';
-            const response = await fetch(`${API_URL}/contact`, {
+            // Use local Next.js API route which handles Gmail SMTP
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
