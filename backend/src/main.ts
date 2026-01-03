@@ -7,8 +7,11 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
-      process.env.FRONTEND_URL, // Auto-configured for Production
-    ].filter(Boolean) as string[],
+      'https://library-ms-chi.vercel.app',
+      'https://library-ipfm9wiu1-yousfis-projects-033fb0e9.vercel.app',
+      /\.vercel\.app$/, // Allow all Vercel preview deployments
+      process.env.FRONTEND_URL,
+    ].filter(Boolean),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
