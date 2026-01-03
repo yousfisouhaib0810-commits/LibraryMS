@@ -52,11 +52,20 @@
   scrollbar-width: none;
 }
 
+/* Base scroll lock (Desktop & Mobile) */
 body.lock-scroll {
   overflow: hidden !important;
-  height: 100dvh !important;
-  touch-action: none;
-  /* Prevents background swipe */
+}
+
+/* Aggressive Scroll Lock ONLY for Mobile to prevent background swipe */
+@media (max-width: 768px) {
+  body.lock-scroll {
+    height: 100dvh !important;
+    touch-action: none;
+    position: fixed;
+    /* Ensures it stays put on iOS */
+    width: 100%;
+  }
 }
 
 @theme {
