@@ -144,12 +144,12 @@ export function Projects() {
                                     viewport={{ once: true, margin: "-50px" }}
                                     className="group"
                                 >
-                                    <div className="glass-morphism h-full flex flex-col overflow-hidden hover:border-blue-500/40 hover:shadow-[0_0_40px_rgba(56,189,248,0.1)] transition-all duration-500">
+                                    <div
+                                        className="glass-morphism h-full flex flex-col overflow-hidden hover:border-blue-500/40 hover:shadow-[0_0_40px_rgba(56,189,248,0.1)] transition-all duration-500 cursor-pointer"
+                                        onClick={() => setSelectedProject(project)}
+                                    >
                                         {/* Image Area */}
-                                        <div
-                                            className="relative h-56 w-full bg-accent/20 overflow-hidden cursor-pointer"
-                                            onClick={() => setSelectedProject(project)}
-                                        >
+                                        <div className="relative h-56 w-full bg-accent/20 overflow-hidden">
                                             {project.imageUrl ? (
                                                 <Image
                                                     src={project.imageUrl}
@@ -226,8 +226,8 @@ export function Projects() {
                                 </button>
                             </div>
 
-                            <div className="flex flex-col md:grid md:grid-cols-2 h-full overflow-y-auto md:overflow-hidden">
-                                <div className="relative h-64 md:h-full bg-accent/20 flex-shrink-0">
+                            <div className="flex flex-col md:grid md:grid-cols-2 h-full overflow-hidden">
+                                <div className="relative h-48 md:h-full bg-accent/20 flex-shrink-0">
                                     {selectedProject.imageUrl ? (
                                         <img
                                             src={selectedProject.imageUrl}
@@ -241,22 +241,22 @@ export function Projects() {
                                     )}
                                 </div>
 
-                                <div className="p-6 md:p-8 flex flex-col overflow-y-auto">
-                                    <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 mt-2 md:mt-0">{selectedProject.title}</h3>
-                                    <p className="text-muted-foreground leading-relaxed mb-8 text-sm md:text-base">
-                                        {selectedProject.description}
-                                    </p>
+                                <div className="p-4 md:p-8 flex flex-col justify-between overflow-hidden flex-1">
+                                    <div>
+                                        <h3 className="text-xl md:text-3xl font-bold text-foreground mb-2 md:mb-4">{selectedProject.title}</h3>
+                                        <p className="text-muted-foreground leading-relaxed text-xs md:text-base line-clamp-4 md:line-clamp-none">
+                                            {selectedProject.description}
+                                        </p>
+                                    </div>
 
-                                    <div className="space-y-6 mt-auto pb-8 md:pb-0">
-                                        <div>
-                                            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">Technologies</h4>
-                                            <div className="flex flex-wrap gap-2">
-                                                {selectedProject.tags.map(tag => (
-                                                    <span key={tag} className="px-3 py-1.5 rounded-lg bg-accent/50 text-foreground text-xs md:text-sm font-medium border border-border">
-                                                        {tag}
-                                                    </span>
-                                                ))}
-                                            </div>
+                                    <div className="mt-4 md:mt-6">
+                                        <h4 className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 md:mb-4">Technologies</h4>
+                                        <div className="flex flex-wrap gap-1.5 md:gap-2">
+                                            {selectedProject.tags.map(tag => (
+                                                <span key={tag} className="px-2 md:px-3 py-1 md:py-1.5 rounded-lg bg-accent/50 text-foreground text-[10px] md:text-sm font-medium border border-border">
+                                                    {tag}
+                                                </span>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
