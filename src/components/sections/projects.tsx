@@ -23,15 +23,19 @@ export function Projects() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Advanced scroll lock using class
+        // Simple scroll lock (Perfect for Desktop)
         if (selectedProject) {
-            document.body.classList.add('lock-scroll');
+            document.body.style.overflow = 'hidden';
+            // Also add padding to prevent layout shift if scrollbar disappears
+            document.body.style.paddingRight = 'var(--removed-body-scroll-bar-size, 0px)';
         } else {
-            document.body.classList.remove('lock-scroll');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
         }
 
         return () => {
-            document.body.classList.remove('lock-scroll');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
         };
     }, [selectedProject]);
 
