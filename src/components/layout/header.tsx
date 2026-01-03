@@ -39,24 +39,12 @@ export function Header() {
     // Prevent scrolling when mobile menu is open (Advanced Logic)
     useEffect(() => {
         if (isOpen) {
-            const scrollY = window.scrollY;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('lock-scroll');
         } else {
-            const scrollY = document.body.style.top;
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            document.body.style.overflow = '';
-            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            document.body.classList.remove('lock-scroll');
         }
         return () => {
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            document.body.style.overflow = '';
+            document.body.classList.remove('lock-scroll');
         };
     }, [isOpen]);
 

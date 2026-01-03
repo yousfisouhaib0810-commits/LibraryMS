@@ -23,30 +23,15 @@ export function Projects() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Advanced scroll lock that works on iOS and modern browsers
+        // Advanced scroll lock using class
         if (selectedProject) {
-            // Save current scroll position
-            const scrollY = window.scrollY;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('lock-scroll');
         } else {
-            // Restore scroll position
-            const scrollY = document.body.style.top;
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            document.body.style.overflow = '';
-            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            document.body.classList.remove('lock-scroll');
         }
 
         return () => {
-            // Clean up on unmount
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            document.body.style.overflow = '';
+            document.body.classList.remove('lock-scroll');
         };
     }, [selectedProject]);
 
@@ -214,7 +199,7 @@ export function Projects() {
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.95, opacity: 0 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="relative w-full h-full md:h-auto md:max-w-4xl md:max-h-[85vh] flex flex-col bg-card md:border border-border md:rounded-2xl shadow-2xl overflow-hidden"
+                            className="relative w-full h-[100dvh] md:h-auto md:max-w-4xl md:max-h-[85vh] flex flex-col bg-card md:border border-border md:rounded-2xl shadow-2xl overflow-hidden no-scrollbar"
                         >
                             {/* Sticky Header for Mobile */}
                             <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-20 pointer-events-none">
