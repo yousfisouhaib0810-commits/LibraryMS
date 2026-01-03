@@ -146,45 +146,62 @@ export function Header() {
                 </div>
             </motion.nav>
 
-            {/* Mobile Navigation Overlay - Direct rendering without animation for instant closing */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 z-40 md:hidden bg-background p-4 flex flex-col justify-center items-center pointer-events-auto"
-                >
-                    <nav className="flex flex-col gap-6 text-center items-center w-full max-w-sm">
-                        {navItems.map((item) => (
-                            <div key={item.name} className="w-full">
-                                <a
-                                    href={item.href}
-                                    className="block w-full py-3 text-3xl font-black text-foreground hover:text-primary transition-colors italic"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    {item.name}
-                                </a>
-                            </div>
-                        ))}
-                        <div className="mt-8 w-full flex justify-center">
-                            <Button
-                                onClick={() => {
-                                    setIsOpen(false);
-                                    window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'service' }));
-                                }}
-                                className="bg-primary hover:bg-primary/90 rounded-full px-12 py-6 text-xl shadow-none w-full max-w-[250px]"
-                            >
-                                Start a Project
-                            </Button>
-                        </div>
-                    </nav>
-
-                    <button
-                        onClick={() => setIsOpen(false)}
-                        className="absolute top-6 right-6 p-4 text-foreground hover:text-primary transition-colors"
-                        aria-label="Close menu"
+            {/* Mobile Navigation Overlay - With smooth animation but optimized background */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="fixed inset-0 z-40 md:hidden bg-background p-4 flex flex-col justify-center items-center pointer-events-auto"
                     >
-                        <X className="w-8 h-8" />
-                    </button>
-                </div>
-            )}
+                        <nav className="flex flex-col gap-8 text-center items-center w-full max-w-sm">
+                            {navItems.map((item, i) => (
+                                <motion.div
+                                    key={item.name}
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                                    className="w-full"
+                                >
+                                    <a
+                                        href={item.href}
+                                        className="block w-full text-4xl font-black text-foreground hover:text-primary transition-colors italic"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        {item.name}
+                                    </a>
+                                </motion.div>
+                            ))}
+                            <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.2 }}
+                                className="mt-8 w-full flex justify-center"
+                            >
+                                <Button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'service' }));
+                                    }}
+                                    className="bg-primary hover:bg-primary/90 rounded-full px-12 py-6 text-xl shadow-none w-full max-w-[250px]"
+                                >
+                                    Start a Project
+                                </Button>
+                            </motion.div>
+                        </nav>
+
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="absolute top-6 right-6 p-4 text-foreground hover:text-primary transition-colors"
+                            aria-label="Close menu"
+                        >
+                            <X className="w-8 h-8" />
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     );
 }
