@@ -85,8 +85,9 @@ export class ContactService {
         `;
 
         await this.transporter.sendMail({
-          from: `"${createContactDto.name}" <${createContactDto.email}>`,
+          from: `"Portfolio Contact Form" <${adminEmail}>`,
           to: adminEmail,
+          replyTo: createContactDto.email,
           subject: mailSubject,
           html: emailHtml,
         });
