@@ -14,13 +14,16 @@ export class ContactService {
   ) {
     this.transporter = nodemailer.createTransport({
       host: this.configService.get<string>('SMTP_HOST') || 'smtp.gmail.com',
-      port: this.configService.get<number>('SMTP_PORT') || 465,
-      secure: true,
+      port: this.configService.get<number>('SMTP_PORT') || 587,
+      secure: false, // Use STARTTLS instead of SSL
+      requireTLS: true,
       auth: {
         user: this.configService.get<string>('SMTP_USER'),
         pass: this.configService.get<string>('SMTP_PASS'),
       },
-      connectionTimeout: 10000, // 10 seconds timeout
+      connectionTimeout: 30000, // 30 seconds timeout
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
     });
   }
 
