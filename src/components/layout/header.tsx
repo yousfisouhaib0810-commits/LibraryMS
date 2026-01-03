@@ -36,15 +36,18 @@ export function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Prevent scrolling when mobile menu is open
+    // Prevent scrolling when mobile menu is open (Stronger Lock)
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden'; // Lock html as well
         } else {
             document.body.style.overflow = 'unset';
+            document.documentElement.style.overflow = 'unset';
         }
         return () => {
             document.body.style.overflow = 'unset';
+            document.documentElement.style.overflow = 'unset';
         };
     }, [isOpen]);
 
