@@ -48,7 +48,9 @@ We need to host your Next.js website.
 1.  Go to [Vercel.com](https://vercel.com/) and Sign Up.
 2.  Click **Add New...** -> **Project**.
 3.  Import your **GitHub Repository**.
-4.  Select the **frontend** folder (Root Directory: `frontend`).
+4.  **Settings**:
+    - **Root Directory**: Leave it **BLANK** (or `./`). Do NOT select the `frontend` folder anymore as the code has been moved to the root.
+    - **Framework Preset**: Next.js (should be auto-detected).
 5.  **Environment Variables**:
     - Add `NEXT_PUBLIC_API_URL` -> Paste your Render Backend URL (e.g., `https://my-backend.onrender.com`).
       *(Note: No trailing slash `/` at the end)*.
