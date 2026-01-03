@@ -19,25 +19,26 @@
 }
 
 .light {
-  --background: #f8fafc;
-  /* Slate 50 - Softer than pure white */
+  --background: #f1f5f9;
+  /* Darker off-white (Slate 100) to reduce glare on mobile */
   --foreground: #0f172a;
-  /* Slate 900 - Softer black */
+  /* Slate 900 */
   --card: #ffffff;
-  /* Pure white cards to pop against background */
+  /* Pure white cards */
   --card-foreground: #1e293b;
   --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  /* Slate 100 */
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #e2e8f0;
+  --secondary: #e2e8f0;
   /* Slate 200 */
+  --secondary-foreground: #0f172a;
+  --muted: #e2e8f0;
+  --muted-foreground: #64748b;
+  --accent: #cbd5e1;
+  /* Slate 300 */
   --accent-foreground: #0f172a;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
+  --border: #cbd5e1;
+  /* Darker border for contrast */
+  --input: #cbd5e1;
   --ring: #2563eb;
 }
 
