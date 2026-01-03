@@ -19,18 +19,23 @@
 }
 
 .light {
-  --background: #ffffff;
-  --foreground: #030711;
-  --card: #f8fafc;
-  --card-foreground: #030711;
+  --background: #f8fafc;
+  /* Slate 50 - Softer than pure white */
+  --foreground: #0f172a;
+  /* Slate 900 - Softer black */
+  --card: #ffffff;
+  /* Pure white cards to pop against background */
+  --card-foreground: #1e293b;
   --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --secondary: #7c3aed;
-  --secondary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  /* Slate 100 */
+  --secondary-foreground: #0f172a;
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
-  --accent: #f8fafc;
-  --accent-foreground: #030711;
+  --accent: #e2e8f0;
+  /* Slate 200 */
+  --accent-foreground: #0f172a;
   --border: #e2e8f0;
   --input: #e2e8f0;
   --ring: #2563eb;
@@ -139,6 +144,7 @@ section {
 }
 
 @media (max-width: 768px) {
+
   /* Extreme Mobile Optimization */
   * {
     /* Improve touch scrolling */
@@ -154,23 +160,27 @@ section {
   div[class*="backdrop-blur"] {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(3, 7, 17, 0.96) !important; /* Nearly opaque background */
+    background: rgba(3, 7, 17, 0.96) !important;
+    /* Nearly opaque background */
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     box-shadow: none !important;
   }
 
   /* Force hardware acceleration for scrolling elements */
-  section, main, .overflow-hidden {
+  section,
+  main,
+  .overflow-hidden {
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
   }
 
   /* Disable heavy animations */
-  .animate-blob, 
+  .animate-blob,
   [class*="animate-"] {
     animation: none !important;
-    opacity: 0.1 !important; /* Fallback static visibility */
+    opacity: 0.1 !important;
+    /* Fallback static visibility */
   }
 
   /* Hide decorative blurs that cause lag */
