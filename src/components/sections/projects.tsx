@@ -23,6 +23,22 @@ export function Projects() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        // Lock body scroll when a project is selected
+        if (selectedProject) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+            document.documentElement.style.overflow = 'unset';
+        }
+
+        return () => {
+            document.body.style.overflow = 'unset';
+            document.documentElement.style.overflow = 'unset';
+        };
+    }, [selectedProject]);
+
+    useEffect(() => {
         const fetchProjects = async () => {
             const fallbackProjects: Project[] = [
                 {
@@ -179,15 +195,14 @@ export function Projects() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setSelectedProject(null)}
-                        className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4 bg-black/80 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/80 backdrop-blur-sm"
                     >
                         <motion.div
-                            initial={{ y: "100%", opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: "100%", opacity: 0 }}
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.95, opacity: 0 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="relative w-full md:max-w-4xl max-h-[90vh] md:max-h-[85vh] flex flex-col bg-card border-t md:border border-border rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden"
+                            className="relative w-full h-full md:h-auto md:max-w-4xl md:max-h-[85vh] flex flex-col bg-card md:border border-border md:rounded-2xl shadow-2xl overflow-hidden"
                         >
                             {/* Sticky Header for Mobile */}
                             <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-20 pointer-events-none">
