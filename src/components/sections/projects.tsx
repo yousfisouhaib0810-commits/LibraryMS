@@ -130,8 +130,12 @@ export function Projects() {
                                     className="group"
                                 >
                                     <div
-                                        className="glass-morphism h-full flex flex-col overflow-hidden hover:border-blue-500/40 hover:shadow-[0_0_40px_rgba(56,189,248,0.1)] transition-all duration-500 cursor-pointer"
-                                        onClick={() => setSelectedProject(project)}
+                                        className="glass-morphism h-full flex flex-col overflow-hidden md:hover:border-blue-500/40 md:hover:shadow-[0_0_40px_rgba(56,189,248,0.1)] transition-all duration-500 md:cursor-pointer group"
+                                        onClick={() => {
+                                            if (window.innerWidth >= 768) {
+                                                setSelectedProject(project);
+                                            }
+                                        }}
                                     >
                                         {/* Image Area */}
                                         <div className="relative h-56 w-full bg-accent/20 overflow-hidden">
@@ -154,7 +158,7 @@ export function Projects() {
                                                     </div>
                                                 </div>
                                             )}
-                                            <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center">
                                                 <span className="bg-primary/90 backdrop-blur-md text-primary-foreground px-4 py-2 rounded-full text-sm font-medium border border-primary/20">
                                                     View Details
                                                 </span>
