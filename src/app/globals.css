@@ -153,7 +153,7 @@ section {
     touch-action: pan-y;
   }
 
-  /* Disable expensive blurs on mobile but RESPECT THE THEME (Light/Dark) */
+  /* Extreme Performance Optimization for Mobile */
   .glass-morphism,
   .glass,
   .backdrop-blur-md,
@@ -161,11 +161,26 @@ section {
   div[class*="backdrop-blur"] {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    /* Use theme variables instead of hardcoded dark color */
     background: var(--card) !important;
-    opacity: 0.98 !important;
-    border: 1px solid var(--border) !important;
+    opacity: 1 !important;
+    /* No transparency for speed */
+    border: none !important;
+    /* Remove borders */
     box-shadow: none !important;
+    /* Remove shadows */
+    transition: none !important;
+    /* Remove transitions */
+  }
+
+  /* Disable all animations on mobile for instant feel */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Keep only transform for menu if needed, but disable others */
+  .transform-gpu {
+    transition: transform 0.2s ease-out !important;
   }
 
   /* Force hardware acceleration for scrolling elements */
