@@ -85,6 +85,9 @@ export class ContactService {
           </div>
         `;
 
+        const host = this.configService.get<string>('SMTP_HOST') || 'smtp.gmail.com';
+        const port = this.configService.get<number>('SMTP_PORT') || 465;
+        console.log(`Attempting to send admin email via ${host}:${port}...`);
         await this.transporter.sendMail({
           from: `"Portfolio Contact Form" <${adminEmail}>`,
           to: adminEmail,
@@ -129,18 +132,19 @@ export class ContactService {
           </div>
         `;
 
+        console.log(`Attempting to send auto-reply to ${createContactDto.email}`);
         await this.transporter.sendMail({
           from: `"Souhaib Yousfi" <${adminEmail}>`,
           to: createContactDto.email,
           subject: userSubject,
           html: userHtml,
         });
-        console.log('Auto-response sent successfully to:', createContactDto.email);
+        console.log('User auto-reply sent successfully');
       } else {
         console.warn('SMTP_USER not configured, skipping email send.');
       }
     } catch (error) {
-      console.error('Failed to send email:', error);
+      console.error('CRITICAL EMAIL ERROR: Failed to send email:', error);
     }
   }
 

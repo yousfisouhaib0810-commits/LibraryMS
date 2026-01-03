@@ -49,7 +49,7 @@ export function Projects() {
             ];
 
             try {
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://library-backend-vtqw.onrender.com';
                 const response = await fetch(`${API_URL}/projects`);
                 if (response.ok) {
                     const data = await response.json();

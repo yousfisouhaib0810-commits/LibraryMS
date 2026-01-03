@@ -52,7 +52,7 @@ export function Contact() {
         setStatus('idle');
 
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://library-backend-vtqw.onrender.com';
             const response = await fetch(`${API_URL}/contact`, {
                 method: 'POST',
                 headers: {
@@ -374,7 +374,7 @@ export function Contact() {
                                         </div>
                                         {status === 'success'
                                             ? "Message transmitted successfully. I'll get back to you shortly."
-                                            : "Transmission failed. Is the local backend server running?"}
+                                            : "Transmission failed. Please ensure the backend is online or check your connection."}
                                     </motion.div>
                                 )}
                             </AnimatePresence>
