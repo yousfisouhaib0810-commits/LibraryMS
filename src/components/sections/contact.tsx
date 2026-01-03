@@ -62,7 +62,7 @@ export function Contact() {
             });
 
             // Add artificial delay for better UX (so it doesn't feel "too fast")
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 500));
 
             if (response.ok) {
                 setFormData({ name: "", email: "", subject: "", message: "", appName: "", duration: "", budget: "" });
