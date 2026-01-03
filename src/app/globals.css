@@ -138,14 +138,44 @@ section {
   will-change: transform, opacity;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  /* Extreme Mobile Optimization */
+  * {
+    /* Improve touch scrolling */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
 
+  /* Disable expensive blurs completely on mobile */
   .glass-morphism,
-  .glass {
+  .glass,
+  .backdrop-blur-md,
+  .backdrop-blur-xl,
+  div[class*="backdrop-blur"] {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: var(--card) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(3, 7, 17, 0.96) !important; /* Nearly opaque background */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+  }
+
+  /* Force hardware acceleration for scrolling elements */
+  section, main, .overflow-hidden {
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* Disable heavy animations */
+  .animate-blob, 
+  [class*="animate-"] {
+    animation: none !important;
+    opacity: 0.1 !important; /* Fallback static visibility */
+  }
+
+  /* Hide decorative blurs that cause lag */
+  div[class*="blur-"][class*="rounded-full"][class*="absolute"] {
+    display: none !important;
   }
 }
 

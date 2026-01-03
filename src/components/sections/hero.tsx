@@ -8,7 +8,7 @@ import Image from "next/image";
 export function Hero() {
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 pb-16 overflow-hidden scroll-mt-24">
-            {/* Mesh Gradient Background - Ultra Simplified for Mobile */}
+            {/* Mesh Gradient Background - Hidden on Mobile for Performance */}
             <div className="absolute inset-0 -z-10 bg-background">
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,var(--card),var(--background))]" />
                 <motion.div
@@ -16,14 +16,14 @@ export function Hero() {
                         opacity: [0.05, 0.1, 0.05],
                     }}
                     transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-[5%] -left-[5%] w-[40%] h-[40%] bg-blue-600/5 rounded-full blur-[60px] md:blur-[120px]"
+                    className="hidden md:block absolute -top-[5%] -left-[5%] w-[40%] h-[40%] bg-blue-600/5 rounded-full blur-[120px]"
                 />
                 <motion.div
                     animate={{
                         opacity: [0.05, 0.15, 0.05],
                     }}
                     transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                    className="absolute -bottom-[5%] -right-[5%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[60px] md:blur-[120px]"
+                    className="hidden md:block absolute -bottom-[5%] -right-[5%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[120px]"
                 />
             </div>
 
