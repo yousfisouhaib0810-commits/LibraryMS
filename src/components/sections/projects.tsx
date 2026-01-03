@@ -23,18 +23,30 @@ export function Projects() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Lock body scroll when a project is selected
+        // Advanced scroll lock that works on iOS and modern browsers
         if (selectedProject) {
+            // Save current scroll position
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = 'unset';
-            document.documentElement.style.overflow = 'unset';
+            // Restore scroll position
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
         }
 
         return () => {
-            document.body.style.overflow = 'unset';
-            document.documentElement.style.overflow = 'unset';
+            // Clean up on unmount
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
         };
     }, [selectedProject]);
 
