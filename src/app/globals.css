@@ -153,7 +153,7 @@ section {
     touch-action: pan-y;
   }
 
-  /* Disable expensive blurs completely on mobile */
+  /* Disable expensive blurs on mobile but RESPECT THE THEME (Light/Dark) */
   .glass-morphism,
   .glass,
   .backdrop-blur-md,
@@ -161,9 +161,10 @@ section {
   div[class*="backdrop-blur"] {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(3, 7, 17, 0.96) !important;
-    /* Nearly opaque background */
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    /* Use theme variables instead of hardcoded dark color */
+    background: var(--card) !important;
+    opacity: 0.98 !important;
+    border: 1px solid var(--border) !important;
     box-shadow: none !important;
   }
 
