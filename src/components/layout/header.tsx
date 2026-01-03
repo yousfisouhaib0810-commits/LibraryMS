@@ -146,59 +146,45 @@ export function Header() {
                 </div>
             </motion.nav>
 
-            {/* Mobile Navigation Overlay */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="fixed inset-0 z-40 md:hidden bg-background/90 backdrop-blur-2xl p-4 flex flex-col justify-center items-center pointer-events-auto"
-                    >
-                        <nav className="flex flex-col gap-8 text-center items-center">
-                            {navItems.map((item, i) => (
-                                <motion.div
-                                    key={item.name}
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: i * 0.1 }}
+            {/* Mobile Navigation Overlay - Direct rendering without animation for instant closing */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 z-40 md:hidden bg-background p-4 flex flex-col justify-center items-center pointer-events-auto"
+                >
+                    <nav className="flex flex-col gap-6 text-center items-center w-full max-w-sm">
+                        {navItems.map((item) => (
+                            <div key={item.name} className="w-full">
+                                <a
+                                    href={item.href}
+                                    className="block w-full py-3 text-3xl font-black text-foreground hover:text-primary transition-colors italic"
+                                    onClick={() => setIsOpen(false)}
                                 >
-                                    <a
-                                        href={item.href}
-                                        className="text-4xl font-black text-foreground hover:text-primary transition-colors italic"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        {item.name}
-                                    </a>
-                                </motion.div>
-                            ))}
-                            <motion.div
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.3 }}
-                                className="mt-8"
+                                    {item.name}
+                                </a>
+                            </div>
+                        ))}
+                        <div className="mt-8 w-full flex justify-center">
+                            <Button
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'service' }));
+                                }}
+                                className="bg-primary hover:bg-primary/90 rounded-full px-12 py-6 text-xl shadow-none w-full max-w-[250px]"
                             >
-                                <Button
-                                    onClick={() => {
-                                        setIsOpen(false);
-                                        window.dispatchEvent(new CustomEvent('set-contact-form-type', { detail: 'service' }));
-                                    }}
-                                    className="bg-primary hover:bg-primary/90 rounded-full px-12 py-6 text-xl shadow-[0_10px_30px_rgba(56,189,248,0.3)]"
-                                >
-                                    Start a Project
-                                </Button>
-                            </motion.div>
-                        </nav>
+                                Start a Project
+                            </Button>
+                        </div>
+                    </nav>
 
-                        <button
-                            onClick={() => setIsOpen(false)}
-                            className="absolute top-8 right-8 p-4 text-foreground/50 hover:text-foreground transition-colors"
-                        >
-                            <X className="w-8 h-8" />
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    <button
+                        onClick={() => setIsOpen(false)}
+                        className="absolute top-6 right-6 p-4 text-foreground hover:text-primary transition-colors"
+                        aria-label="Close menu"
+                    >
+                        <X className="w-8 h-8" />
+                    </button>
+                </div>
+            )}
         </header>
     );
 }
