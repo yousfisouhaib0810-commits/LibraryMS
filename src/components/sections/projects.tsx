@@ -30,21 +30,21 @@ export function Projects() {
                     title: "LibraryMS",
                     description: "A comprehensive Library Management System designed to streamline book tracking and member management.",
                     tags: ["Next.js", "NestJS", "PostgreSQL", "Tailwind"],
-                    imageUrl: null
+                    imageUrl: "/projects/library.jpg"
                 },
                 {
                     id: 2,
                     title: "Codilli",
                     description: "An advanced digital marketplace platform focusing on secure transactions and instant delivery.",
                     tags: ["React", "Node.js", "MongoDB", "Stripe"],
-                    imageUrl: null
+                    imageUrl: "/projects/codilli.jpg"
                 },
                 {
                     id: 3,
                     title: "Uber Clone",
                     description: "A feature-rich ride-sharing application with real-time tracking and route optimization.",
                     tags: ["React Native", "Google Maps", "Firebase"],
-                    imageUrl: null
+                    imageUrl: "/projects/uber.jpg"
                 }
             ];
 
