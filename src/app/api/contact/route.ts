@@ -58,11 +58,35 @@ export async function POST(req: Request) {
         // 4. إرسال رد تلقائي للمستخدم
         const userSubject = isService ? 'Project Request Received - Souhaib Yousfi' : 'Message Received - Souhaib Yousfi';
         const userHtml = `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px;">
-        <h1 style="color: #3b82f6; text-align: center;">Thank You!</h1>
-        <p>Hello <strong>${name}</strong>,</p>
-        <p>I received your ${isService ? 'project request' : 'message'} and will get back to you soon.</p>
-        <p>Best regards,<br><strong>Souhaib Yousfi</strong></p>
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px; color: #1f2937; line-height: 1.6;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #3b82f6; margin: 0; font-size: 28px; font-weight: 700;">Thank You for Reaching Out!</h1>
+        </div>
+        
+        <p style="margin-bottom: 20px;">Hello <strong>${name}</strong>,</p>
+        
+        <p style="margin-bottom: 20px;">I hope this email finds you well.</p>
+        
+        <p style="margin-bottom: 20px;">I have received your ${isService ? 'project request' : 'message'} and I'm excited to learn more about it.</p>
+        
+        <p style="margin-bottom: 30px;">I wanted to let you know that I am personally reviewing your details and I will get back to you with a response as soon as possible, usually within 24-48 hours.</p>
+        
+        <div style="background-color: #f3f4f6; border-left: 4px solid #3b82f6; padding: 20px; margin: 30px 0;">
+          <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #1f2937; font-weight: 700;">What happens next?</h3>
+          <p style="margin: 0; font-size: 14px; color: #4b5563;">
+            I'll review your requirements and follow up via this email address to discuss potential next steps or clarify any details.
+          </p>
+        </div>
+        
+        <p style="margin-bottom: 30px;">If you have any urgent updates in the meantime, feel free to reply directly to this email or reach out to me on WhatsApp.</p>
+        
+        <p style="margin-top: 40px; margin-bottom: 5px;">Best regards,</p>
+        <p style="margin: 0; font-weight: 700; font-size: 16px;">Souhaib Yousfi</p>
+        <p style="margin: 0; color: #4b5563;">Full Stack Developer</p>
+        
+        <div style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #9ca3af;">
+          <p>© ${new Date().getFullYear()} Souhaib Yousfi. All rights reserved.</p>
+        </div>
       </div>
     `;
 
